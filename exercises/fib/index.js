@@ -1,0 +1,36 @@
+// --- Directions
+// Print out the n-th entry in the fibonacci series.
+// The fibonacci series is an ordering of numbers where
+// each number is the sum of the preceeding two.
+// For example, the sequence
+//  [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+// forms the first ten entries of the fibonacci series.
+// Example:
+//   fib(4) === 3
+
+function memoize(fn) {
+  const cache = {};
+
+  return function (...args) {
+    if (cache[args]) return cache[args];
+    return (cache[args] = fn.apply(this, args));
+  };
+}
+
+function fibRecursive(number) {
+  if (number < 2) return number;
+  return fib(number - 1) + fib(number - 2);
+}
+const fib = memoize(fibRecursive);
+
+function fibIterative(number) {
+  const results = [0, 1];
+
+  for (let index = 2; index <= number; index++) {
+    const sum = results[index - 2] + results[index - 1];
+    results.push(sum);
+  }
+  return results[number];
+}
+
+module.exports = fibRecursive;
